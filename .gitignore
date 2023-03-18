@@ -1,3 +1,5 @@
 node_modules
 *.swo
 *.swp
+db_copies
+.DS_store
