@@ -127,3 +127,9 @@ Schema:   rxnorm
 
 Prod Server: ssh ith5263@linserv1.cims.nyu.edu
 ```
+
+## Differences between CIMS and Docker Version
+
+CIMS's rxnorm's scd table lacks **ingrset_rxcui** due to complications caused by using a **lateral join** \
+(lateral joins not introduced until Postgres 9.3+, CIMS runs Postgres 9.2)
+

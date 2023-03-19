@@ -11,6 +11,6 @@ psql -U rxnorm -f sql/rxnorm-orig/RxNormDDL.sql -v ON_ERROR_STOP=1
 "$SCRIPT_DIR"/populate-rxnorm-tables.sh
 
 # creating derived tables from rxnorm tables
-psql -U rxnorm -f sql/create-derived-tables-cims.sql -v ON_ERROR_STOP=1
+psql -U rxnorm -f "$SCRIPT_DIR"/cims-sql/create-derived-tables-cims.sql -v ON_ERROR_STOP=1
 # populating derived tables
-psql -U rxnorm -f "sql/populate-derived-tables-cims.sql -v ON_ERROR_STOP=1
+psql -U rxnorm -f "$SCRIPT_DIR"/cims-sql/populate-derived-tables-cims.sql -v ON_ERROR_STOP=1
