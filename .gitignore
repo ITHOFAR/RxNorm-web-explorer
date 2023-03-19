@@ -3,5 +3,5 @@ node_modules
 *.swp
 db_copies
 .DS_store
-cimsInfo.txt
+notes.txt
 .vscode
