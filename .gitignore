@@ -3,5 +3,5 @@ node_modules
 *.swp
 db_copies
 .DS_store
-notes.txt
 .vscode
+OLDREADME.md
