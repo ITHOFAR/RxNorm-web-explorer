@@ -15,18 +15,6 @@ create index ix_tmpmthsplsub_aui on tmp_mthspl_sub (rxaui);
 create index ix_tmpmthsplsub_cui on tmp_mthspl_sub (rxcui);
 create index ix_tmpmthsplsub_unii on tmp_mthspl_sub (unii);
 
--- create table tmp_scd_ingrset (
---   drug_rxcui varchar(12) not null,
---   ingrset_rxcui varchar(12) not null,
---   ingrset_rxaui varchar(12) not null,
---   ingrset_name varchar(2000) not null,
---   ingrset_suppress varchar(1) not null,
---   ingrset_tty varchar(100) not null,
---   constraint pk_tmpscdingrset primary key (drug_rxcui, ingrset_rxcui)
--- );
--- create index ix_tmpsingletoningrset on tmp_scd_ingrset (ingrset_rxcui);
-
-
 -- Load tables derived from sab=RXNORM subset of RxNorm.
 
 insert into df (rxcui, rxaui, name, origin, code)
@@ -87,60 +75,6 @@ where sab='RXNORM'
 and tty = 'PIN'
 ;
 
--- insert into tmp_scd_ingrset (drug_rxcui, ingrset_rxcui, ingrset_rxaui, ingrset_name, ingrset_suppress, ingrset_tty)
--- with scd_nomin as ( -- SCDs with no multi-ingredient
---   select scd.rxcui
---   from rxnconso scd
---   where scd.sab = 'RXNORM' and scd.tty = 'SCD' and scd.rxcui not in (
---     select scd.rxcui
---     from rxnrel r
---     join rxnconso scd on scd.rxcui = r.rxcui1 and scd.sab = 'RXNORM' and scd.tty = 'SCD'
---     join rxnconso min on min.rxcui = r.rxcui2 and min.sab = 'RXNORM' and min.tty = 'MIN'
---     where r.sab = 'RXNORM' and r.rela = 'ingredients_of'
---   )
--- ),
--- scdc_nomins as ( -- SCDCs that have no multi-ingredient
---   select scdc.rxcui scdc_rxcui, scdc.str scdc_str, r.rela, scd.rxcui scd_rxcui, scd.str scd_str
---   from rxnrel r
---   join rxnconso scd on scd.rxcui = r.rxcui1
---   join rxnconso scdc on scdc.rxcui = r.rxcui2
---   join scd_nomin sn on sn.rxcui = scd.rxcui
---   where r.sab = 'RXNORM' and r.rela = 'constitutes'
---   and scd.sab = 'RXNORM' and scd.tty = 'SCD'
---   and scdc.sab = 'RXNORM' and scdc.tty = 'SCDC'
--- )
--- select distinct scd.*, i.*
--- from scd_nomin scd,
--- lateral (
---   select ingr.rxcui, ingr.rxaui, ingr.str, ingr.suppress, ingr.tty
---   from rxnrel r
---   join scdc_nomins on scdc_nomins.scdc_rxcui = r.rxcui1
---   join rxnconso ingr on ingr.rxcui = r.rxcui2
---   where r.sab = 'RXNORM' and r.rela in ('ingredient_of', 'precise_ingredient_of')
---   and ingr.sab = 'RXNORM' and ingr.tty in ('IN', 'PIN')
---   and scd.rxcui = scdc_nomins.scd_rxcui
---   order by ingr.tty desc --prefer PIN over IN
---   limit 1
--- ) i
--- ;
-
--- insert into tmp_scd_ingrset (drug_rxcui, ingrset_rxcui, ingrset_rxaui, ingrset_name, ingrset_suppress, ingrset_tty)
--- select scd.rxcui, m.rxcui, m.rxaui, m.name, m.suppress, 'MIN'
--- from rxnrel r
--- join (
---   select c.rxcui, c.rxaui, c.str as name, c.suppress
---   from rxnconso c where sab='RXNORM' and tty = 'MIN'
--- ) m on m.rxcui = r.rxcui2
--- join rxnconso scd on scd.rxcui = r.rxcui1
--- where r.rela = 'ingredients_of' and r.sab = 'RXNORM'
--- and scd.tty = 'SCD' and scd.sab = 'RXNORM'
--- ;
-
--- insert into ingrset (rxcui, rxaui, name, suppress, tty)
--- select distinct ingrset_rxcui, ingrset_rxaui, ingrset_name, ingrset_suppress, ingrset_tty
--- from tmp_scd_ingrset
--- ;
-
 insert into scdf (rxcui, rxaui, name, df_rxcui)
 select
   c.rxcui,
@@ -151,8 +85,8 @@ select
 from rxnconso c
 where c.sab = 'RXNORM' and c.tty = 'SCDF'
 ;
---  ingrset_rxcui, as 8th var
-insert into scd (rxcui, rxaui, name, prescribable_name, rxterm_form, df_rxcui, scdf_rxcui,  available_strengths, qual_distinct, suppress, quantity, human_drug, vet_drug, unquantified_form_rxcui)
+
+insert into scd (rxcui, rxaui, name, prescribable_name, rxterm_form, df_rxcui, scdf_rxcui, available_strengths, qual_distinct, suppress, quantity, human_drug, vet_drug, unquantified_form_rxcui)
 select
   c.rxcui,
   c.rxaui,
@@ -163,7 +97,6 @@ select
    where r.sab = 'RXNORM' and r.rela = 'dose_form_of' and r.rxcui1 = c.rxcui) df_rxcui,
   (select scdf.rxcui from rxnrel r join scdf on scdf.rxcui = r.rxcui1
    where r.rxcui2 = c.rxcui and r.sab = 'RXNORM' and r.rela = 'isa') scdf_rxcui,
-  -- (select ingrset_rxcui from tmp_scd_ingrset where drug_rxcui = c.rxcui) ingrset_rxcui,
   (select s.atv from rxnsat s where s.sab = 'RXNORM' and s.rxcui = c.rxcui and s.atn = 'RXN_AVAILABLE_STRENGTH'),
   (select s.atv from rxnsat s where s.sab = 'RXNORM' and s.rxcui = c.rxcui and s.atn = 'RXN_QUALITATIVE_DISTINCTION'),
   c.suppress,
@@ -589,5 +522,3 @@ join mthspl_pillattr a on a.attr = pa.atn
 ;
 
 drop table tmp_mthspl_sub;
-drop table ingrset;
--- drop table tmp_scd_ingrset;
