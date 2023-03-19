@@ -124,4 +124,6 @@ Username: rxnorm
 Password: rxnorm
 Database: rxnorm
 Schema:   rxnorm
+
+Prod Server: ssh ith5263@linserv1.cims.nyu.edu
 ```

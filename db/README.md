@@ -1,6 +1,6 @@
 # Use Docker to setup PostgreSQL and populate tables
 
-Note: See CIMS-README.md for postgreSQL setup for CIMS
+Note: See [CIMS-README.md](sql/CIMS-README.md) for postgreSQL setup for CIMS
 
 ## Getting RxNorm Data
 
