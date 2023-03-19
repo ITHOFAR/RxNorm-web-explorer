@@ -4,7 +4,8 @@
   "description": "Final Project for AIT. Using express, react, and postgreSQL",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon src/app.mjs"
+    "test": "node server/app.mjs",
+    "mon": "nodemon server/app.mjs"
   },
   "repository": {
     "type": "git",

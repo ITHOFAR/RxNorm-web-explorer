@@ -1,6 +1,5 @@
 //based on tutorial from Steve Harris (my dad) on using pg-pool with postgreSQL and express
-import {Pool} from 'pg-pool';
-import {Client, QueryConfig, QueryResult} from 'pg';
+import Pool from 'pg-pool';
 
 let connPool = null;
 
