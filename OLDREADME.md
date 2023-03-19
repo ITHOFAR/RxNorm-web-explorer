@@ -1,28 +1,57 @@
-# RxNorm-Explorer
+The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
+
+(__TODO__: your project name)
+
+# Shoppy Shoperson 
 
 ## Overview
 
-This app will allow users to enter rxcui (drug names) to receive a (__TODO__) drop down + more info. The user will be able to enter either a drug name, product name, various drug identifiers, or other fields to recieve more information on their item.
-The RxNorm-Explorer will allow users to gain large amounts of information from small amounts of data. etc... etc... go from one field to another or more.
+(__TODO__: a brief one or two paragraph, high-level description of your project)
+
+Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
+
+Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
+
 
 ## Data Model
 
-The application will store queried drugs and query results
+(__TODO__: a description of your application's data and their relationships to each other) 
 
-* users can have multiple queries (multiple possible querys)
-* each query can contain multiple different pieces of information (by json_aggregation)
+The application will store Users, Lists and Items
 
-Example Use 1:
+* users can have multiple lists (via references)
+* each list can have multiple items (by embedding)
 
-![list create](documentation/figure1.png)
+(__TODO__: sample documents)
 
-Example Use 2:
+An Example User:
 
-![list create](documentation/figure2.png)
+```javascript
+{
+  username: "shannonshopper",
+  hash: // a password hash,
+  lists: // an array of references to List documents
+}
+```
 
-## [Link to Commented First Draft Schema](sql/create-derived-tables.sql)
+An Example List with Embedded Items:
 
-See create-derived-tables.sql for PostgreSQL schema
+```javascript
+{
+  user: // a reference to a User object
+  name: "Breakfast foods",
+  items: [
+    { name: "pancakes", quantity: "9876", checked: false},
+    { name: "ramen", quantity: "2", checked: true},
+  ],
+  createdAt: // timestamp
+}
+```
+
+
+## [Link to Commented First Draft Schema](db.mjs) 
+
+(__TODO__: create a first draft of your Schemas in db.mjs and link to it)
 
 ## Wireframes
 
