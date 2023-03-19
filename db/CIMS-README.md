@@ -83,6 +83,20 @@ export PGUSER=rxnorm
 *:54321:rxnorm:rxnorm:rxnorm
 ```
 
+## Script Usage
+
+To run PostgreSQL with correct user name
+
+```sh
+scripts/./start-pg-cims.sh
+```
+
+To populate database with rxnorm information
+
+```sh
+scripts/./load-pg.sh
+```
+
 ## Resources and Misc Info
 
 [CIMS Postgres Information](https://cims.nyu.edu/webapps/content/systems/userservices/databases/PostgreSQL-cluster)
