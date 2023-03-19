@@ -33,6 +33,6 @@ export function createPool() {
 }
 
 export async function closePool() {
-    console.log("Closing database connection pool");
+    console.log("\nClosing database connection pool");
     await pool().end();
 }
