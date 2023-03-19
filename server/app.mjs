@@ -2,7 +2,7 @@ import express from 'express'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
-import {createPool, closePool} from './pg-pool-exec.mjs';
+import {createPool, closePool, querySQL} from './pg-pool-exec.mjs';
 import session from 'express-session';
 import * as fs from 'fs'
 
@@ -78,3 +78,7 @@ const sessionOptions = {
 };
 
 start(publicDir, port, sessionOptions);
+
+
+const test = await querySQL("select count(*) from scd;", []);
+console.log(test.rows);

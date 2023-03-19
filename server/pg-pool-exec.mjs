@@ -1,5 +1,6 @@
 //based on tutorial from Steve Harris (my dad) on using pg-pool with postgreSQL and express
 import Pool from 'pg-pool';
+import * as pg from 'pg';
 
 let connPool = null;
 
@@ -35,4 +36,14 @@ export function createPool() {
 export async function closePool() {
     console.log("\nClosing database connection pool");
     await pool().end();
+}
+
+export async function querySQL(sql, paramaters) {
+    try {
+        return await pool().query(sql, paramaters);
+    }
+    catch(err) {
+        console.error(`Error running query: `, err, `\nsql: `, sql,` paramaters: `, paramaters);
+        throw err;
+    }
 }
