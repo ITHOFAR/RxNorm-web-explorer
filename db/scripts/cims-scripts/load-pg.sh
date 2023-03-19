@@ -6,7 +6,7 @@ SCRIPT_DIR="$(dirname "$(realpath "$0")")"
 cd "$SCRIPT_DIR"/..
 
 # creating rxnorm tables
-psql -U rxnorm -f sql/rxnorm-orig/RxNormDDL.sql -v ON_ERROR_STOP=1
+psql -U rxnorm -f "$SCRIPT_DIR"/../../sql/rxnorm-orig/RxNormDDL.sql -v ON_ERROR_STOP=1
 # populates created rxnorm tables
 "$SCRIPT_DIR"/populate-rxnorm-tables.sh
 
