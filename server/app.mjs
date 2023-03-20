@@ -15,9 +15,11 @@ async function start(staticResource, port, sessionOptions) {
     app.use(session(sessionOptions));
     app.use(express.static(staticResource));
     app.use(express.urlencoded({ extended: false}));
-    //-----------routing-------------
-    app.get('/', (res, req) => {
-        res.send("<h1>hello world</h1>");
+    //-----------routing------------- //todo seperate into seperate files and use middleware
+    app.get('/', async (req, res) => {
+        const test = await querySQL("select count(*) from scd;", []);
+        console.log(test.rows[0].count);
+        res.send(`<h1>Amount of SCDs: ${test.rows[0].count}</h1>`);
     });
 
 
@@ -78,7 +80,3 @@ const sessionOptions = {
 };
 
 start(publicDir, port, sessionOptions);
-
-
-const test = await querySQL("select count(*) from scd;", []);
-console.log(test.rows);
