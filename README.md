@@ -9,6 +9,7 @@ The RxNorm-Explorer will allow users to gain large amounts of information from j
 
 The application will store queried drugs and query results for each user
 
+* data to be queried stored in PostgreSQL (accessed by pg-pool and pg modules)
 * users can have multiple queries (results stored in PostgreSQL)
 * each query can contain multiple different pieces of information (by json_aggregation)
 
