@@ -23,29 +23,25 @@ Example Use 2:
 
 ## [Link to Commented First Draft Schema](db/sql/create-derived-tables.sql)
 
-See create-derived-tables.sql for PostgreSQL schema
+See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL schema
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.) __TODO__ use excalibar.io or whatever its called
-
 /search - page for querying different identifiers
 
-![list create](documentation/list-create.png)
+![list create](documentation/search.svg)
 
 /login - page for authenticating user
 
-![list](documentation/list.png)
+![list](documentation/login.svg)
 
 /results - page for showing results of a user
 
-![list](documentation/list-slug.png)
+![list](documentation/results.svg)
 
 ## Site map
 
-(__TODO__: draw out a site map that shows how pages are related to each other) __TODO__ use excalibar.io again
-
-Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
+Here's a [Sitemap for RxNorm-Explorer](documentation/sitemap.svg)
 
 ## User Stories
 
