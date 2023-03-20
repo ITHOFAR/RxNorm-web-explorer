@@ -41,7 +41,7 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 ## Site map
 
-Here's a [Sitemap for RxNorm-Explorer](documentation/sitemap.svg)
+![list create](documentation/sitemap.svg)
 
 ## User Stories
 
