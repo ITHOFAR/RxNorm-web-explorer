@@ -2,14 +2,14 @@
 
 ## Overview
 
-This app will allow users to enter rxcui (drug names) to receive a (__TODO__) drop down + more info. The user will be able to enter either a drug name, product name, various drug identifiers, or other fields to recieve more information on their item.
-The RxNorm-Explorer will allow users to gain large amounts of information from small amounts of data. etc... etc... go from one field to another or more.
+This app will allow users to enter various drug identifiers to receive a comprehensive collection of information pertaining to selected drug from the identity used. The user will be able to enter either a drug name, product name, various computer-readable drug identifiers, or other fields to recieve more information on their item.
+The RxNorm-Explorer will allow users to gain large amounts of information from just one identifier.
 
 ## Data Model
 
-The application will store queried drugs and query results
+The application will store queried drugs and query results for each user
 
-* users can have multiple queries (multiple possible querys)
+* users can have multiple queries (results stored in PostgreSQL)
 * each query can contain multiple different pieces of information (by json_aggregation)
 
 Example Use 1:
@@ -20,68 +20,57 @@ Example Use 2:
 
 ![list create](documentation/figure2.png)
 
-## [Link to Commented First Draft Schema](sql/create-derived-tables.sql)
+## [Link to Commented First Draft Schema](db/sql/create-derived-tables.sql)
 
 See create-derived-tables.sql for PostgreSQL schema
 
 ## Wireframes
 
-(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.)
+(__TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc.) __TODO__ use excalibar.io or whatever its called
 
-/list/create - page for creating a new shopping list
+/search - page for querying different identifiers
 
 ![list create](documentation/list-create.png)
 
-/list - page for showing all shopping lists
+/login - page for authenticating user
 
 ![list](documentation/list.png)
 
-/list/slug - page for showing specific shopping list
+/results - page for showing results of a user
 
 ![list](documentation/list-slug.png)
 
 ## Site map
 
-(__TODO__: draw out a site map that shows how pages are related to each other)
+(__TODO__: draw out a site map that shows how pages are related to each other) __TODO__ use excalibar.io again
 
 Here's a [complex example from wikipedia](https://upload.wikimedia.org/wikipedia/commons/2/20/Sitemap_google.jpg), but you can create one without the screenshots, drop shadows, etc. ... just names of pages and where they flow to.
 
-## User Stories or Use Cases
-
-(__TODO__: write out how your application will be used through [user stories](http://en.wikipedia.org/wiki/User_story#Format) and / or [use cases](https://en.wikipedia.org/wiki/Use_case))
+## User Stories
 
 1. as non-registered user, I can register a new account with the site
 2. as a user, I can log in to the site
-3. as a user, I can create a new grocery list
-4. as a user, I can view all of the grocery lists I've created in a single list
-5. as a user, I can add items to an existing grocery list
-6. as a user, I can cross off items in an existing grocery list
+3. as a user, I can search various drug identifiers
+4. as a user, I can view all of the queries and results on a single page
+5. as a user, I can add more queries to my results page by searching more
+6. as a user, I can remove queries from my results that are no longer useful
 
 ## Research Topics
 
-(__TODO__: the research topics that you're planning on working on along with their point values... and the total points of research topics listed)
+* (3 points) currently using dotenv for express-session and pg-pool configuration.
 
-* (5 points) Integrate user authentication
-    * I'm going to be using passport for user authentication
-    * And account has been made for testing; I'll email you the password
-    * see <code>cs.nyu.edu/~jversoza/ait-final/register</code> for register page
-    * see <code>cs.nyu.edu/~jversoza/ait-final/login</code> for login page
-* (4 points) Perform client side form validation using a JavaScript library
-    * see <code>cs.nyu.edu/~jversoza/ait-final/my-form</code>
-    * if you put in a number that's greater than 5, an error message will appear in the dom
-* (5 points) vue.js
-    * used vue.js as the frontend framework; it's a challenging library to learn, so I've assigned it 5 points
+* (6 points) front-end will be a single page React app (WIP)
 
-10 points total out of 8 required points (___TODO__: addtional points will __not__ count for extra credit)
+* (3 points) plan to add unit tests with Jest to test querys etc... (WIP)
 
+12 points total out of 10 required points
 
-## [Link to Initial Main Project File](app.mjs) 
-
-(__TODO__: create a skeleton Express application with a package.json, app.mjs, views folder, etc. ... and link to your initial app.mjs)
+## [Link to Initial Main Project File](server/app.mjs)
 
 ## Annotations / References Used
 
-(__TODO__: list any tutorials/references/etc. that you've based your code off of)
-
-1. [passport.js authentication docs](http://passportjs.org/docs) - (add link to source code that was based on this)
-2. [tutorial on vue.js](https://vuejs.org/v2/guide/) - (add link to source code that was based on this)
+1. [pg-pool npm page](https://www.npmjs.com/package/pg-pool) - [pg-pool-exec.mjs](server/pg-pool-exec.mjs)
+2. [dotenv npm page](https://www.npmjs.com/package/dotenv) - [envs folder](/envs/)
+3. [tutorial on flexbox](https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/) - [css WIP](public/css/style.css)
+4. [React tutorial](https://react.dev/learn/thinking-in-react) - [client WIP](/client/)
+5. Conversations with my father, helped paint a picture of interactions between database (PostgreSQL), middle-tier/server (express app), and front-end/client (react app). Not really sure how to cite this.
