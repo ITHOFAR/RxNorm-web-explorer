@@ -56,7 +56,7 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 * (3 points) currently using dotenv for express-session and pg-pool configuration.
 
-* (6 points) front-end will be a single page React app (WIP)
+* (6 points) front-end will be a React app (WIP)
 
 * (3 points) plan to add unit tests with Jest to test querys etc... (WIP)
 
