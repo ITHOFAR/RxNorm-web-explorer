@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node server/app.mjs 1",
-    "nodemon": "nodemon server/app.mjs"
+    "nodemon": "nodemon server/app.mjs 1"
   },
   "repository": {
     "type": "git",
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/nyu-csci-ua-0467-001-002-spring-2023/final-project-ITHOFAR#readme",
   "devDependencies": {
     "eslint": "^8.36.0",
-    "nodemon": "^2.0.21"
+    "hbs": "^4.2.0",
+    "nodemon": "^2.0.21",
+    "pm2": "^5.3.0"
   },
   "dependencies": {
     "dotenv": "^16.0.3",

@@ -1,0 +1,38 @@
+<div>
+    <form action="/search" method="GET">
+
+        <label for="searchTarget">What to Search:</label>
+        <select id="searchTarget" name="searchTarget">
+            <option value="scd">SCD</option>
+            <option value="sbd">SBD</option>
+            <option value="mthspl_prod">mthspl prod</option>
+        </select>
+        <label for="searchOption">How to Search:</label>
+
+        <select id="searchOption" name="searchOption">
+            <option value="All">All Info</option>
+            <option value="Name">Name Only</option>
+            {{!-- <option value="Count">Amount Only </option> --}}
+            {{!-- <option value="RelatedDrugs">Related Drugs</option>  --}}
+        </select>
+
+        <input id="submitSearch" type="submit" value="submit">
+
+</form>
+</div>
+<div>
+    <table id="currentQuery">
+        <tr>
+            <th>name</th>
+            <th>rxcui</th>
+            <th>rxaui</th>
+        </tr>
+        {{#each query}}
+        <tr>
+            <td>{{this.name}}</td>
+            <td>{{this.rxcui}}</td>
+            <td>{{this.rxaui}}</td>
+        </tr>
+        {{/each}}
+    </table>
+</div>

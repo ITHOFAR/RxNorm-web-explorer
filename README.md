@@ -35,7 +35,7 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 ![list](documentation/login.svg)
 
-/results - page for showing results of a user
+/result - page for showing results of a user
 
 ![list](documentation/results.svg)
 
