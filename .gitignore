@@ -4,3 +4,5 @@ node_modules
 db_copies
 .DS_store
 .vscode
+notes.md
+concerns.md

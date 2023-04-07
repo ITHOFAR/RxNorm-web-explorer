@@ -60,6 +60,8 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 * (3 points) plan to add unit tests with Jest to test querys etc... (WIP)
 
+bcrypt or passport for auth?
+
 12 points total out of 10 required points
 
 ## [Link to Initial Main Project File](server/app.mjs)
