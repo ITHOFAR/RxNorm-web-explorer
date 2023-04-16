@@ -4,35 +4,34 @@ import {querySQL} from './../pg-pool-exec.mjs';
 export const router = express.Router();
 
 router.get("/", async (req, res) => {
-    res.send("HELLO WORLD");
-//    try
-//    {
-//         const {searchTarget, searchOption} = req.query || null;
+   try
+   {
+        const {searchTarget, searchOption} = req.query || null;
 
-//         let queryResult;
-//         switch (searchOption) {
-//             case 'All':
-//                 queryResult = await querySQL("select distinct * from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
-//                 break;
-//             case 'Name': 
-//                 queryResult = await querySQL("select distinct name from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
-//                 break;
-//             case 'Count': 
-//                 queryResult = await querySQL("select count(*) from $1;", [searchTarget]);
-//                 break;
-//             default:
-//                 queryResult = await querySQL("select distinct * from scd order by name asc fetch first 10 rows only;");
-//         }
-//         const resultName = searchTarget + "_" + searchOption + "_" + Date.prototype.getTime();
-//         const result = queryResult.rows.map(rowToResult);
-//         await querySQL("INSERT INTO results (name, result) VALUES ($1, $2)", [resultName, result]);
-
-//         res.status(200).send({[resultName]: result});
-//    }
-//    catch (e)
-//    {
-//         res.status(404).send(e.message);
-//    }
+        let queryResult;
+        switch (searchOption) {
+            case 'All':
+                queryResult = await querySQL("select distinct * from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
+                break;
+            case 'Name': 
+                queryResult = await querySQL("select distinct name from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
+                break;
+            case 'Count': 
+                queryResult = await querySQL("select count(*) from $1;", [searchTarget]);
+                break;
+            default:
+                queryResult = await querySQL("select distinct * from scd order by name asc fetch first 10 rows only;");
+        }
+        const resultName = searchTarget + "_" + searchOption + "_" + new Date().getTime();
+        const result = JSON.stringify(queryResult.rows.map(rowToResult));
+        await querySQL("INSERT INTO results (name, result) VALUES ($1, $2)", [resultName, result]);
+        const resultObject = JSON.stringify({[resultName]: result});
+        res.status(200).send(resultObject);
+   }
+   catch (e)
+   {
+        res.status(404).send(e.message);
+   }
 });
 
 function rowToResult(r) {

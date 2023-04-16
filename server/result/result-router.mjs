@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
    {
       const results = await querySQL(`select * from results;`);
 
-      res.status(200).send(results); //SENDS JSON {{resultname: results}}
+      res.status(200).send(results.rows); //SENDS JSON {{resultname: results}}
    }
    catch (e)
    {

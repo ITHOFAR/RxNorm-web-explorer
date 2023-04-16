@@ -18,7 +18,7 @@ async function start(staticResource, port, sessionOptions) {
     app.use(session(sessionOptions));
     app.use(express.static(staticResource));
     app.use(express.json());
-    app.use(express.urlencoded({ extended: true})); 
+    app.use(express.urlencoded({ extended: false})); 
     //-----------routing------------- 
     app.use("/api", apiRouter);
 
