@@ -1,11 +1,12 @@
-import express from 'express'
-import path from 'path'
+import express from 'express';
+import path from 'path';
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
-import apiRouter from "./api-router";
+import apiRouter from "./api-routers.mjs";
 import {createPool, closePool} from './pg-pool-exec.mjs';
 import session from 'express-session';
 import * as fs from 'fs'
+import cors from 'cors';
 
 async function start(staticResource, port, sessionOptions) {
 
@@ -13,58 +14,13 @@ async function start(staticResource, port, sessionOptions) {
 
     const app = express();
     //-----------middleware---------
+    app.use(cors());
     app.use(session(sessionOptions));
     app.use(express.static(staticResource));
-    app.use(express.urlencoded({ extended: false}));
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true})); 
     //-----------routing------------- 
     app.use("/api", apiRouter);
-    // app.get('/*', function (req, res) {
-    //     res.sendFile('index.html', {root: staticResource});
-    // });
-
-
-    // const allResults = {};
-
-    // app.get('/', async (req, res) => { //testing
-    //     // const test = await querySQL("select count(*) from scd;", []);
-    //     // // console.log(test.rows[0].count);
-    //     // res.send(`<h1>Amount of SCDs: ${test.rows[0].count}</h1>`);
-    //     res.render('home');
-    // });
-    // app.get('/search', async (req, res) => { 
-    //     const {searchTarget, searchOption} = req.query;
-    //     if (searchTarget !== undefined) {
-    //         let queryResult;
-    //         switch (searchOption) {
-    //             case 'All':
-    //                 queryResult = await querySQL(`select distinct * from ${searchTarget} order by name asc fetch first 10 rows only;`);
-    //                 break;
-    //             case 'Name': 
-    //                 queryResult = await querySQL(`select distinct name from ${searchTarget} order by name asc fetch first 10 rows only;`);
-    //                 break;
-    //             case 'Count': //not implemented yet
-    //                 queryResult = await querySQL(`select count(*) from ${searchTarget};`);
-    //                 break;
-    //             case 'RelatedDrugs': //not implemented yet
-    //                 queryResult = await querySQL(`select distinct * from ${searchTarget} order by name asc fetch first 10 rows only;`);
-    //                 break;
-    //             default:
-    //                 queryResult = await querySQL(`select distinct * from ${searchTarget} order by name asc fetch first 10 rows only;`);
-    //         }
-    //         const tempResultName = searchTarget + "_" + searchOption;
-    //         allResults[tempResultName] = queryResult.rows;
-    //         console.log(allResults);
-    //         res.render('search', {query: queryResult.rows});
-    //     }
-    //     else {
-    //         res.render('search');
-    //     }
-        
-    // });
-    // app.get('/result', (req, res) => {
-    //     res.render('result', {results: allResults})
-    // });
-
 
     //-----------running server----------
     const server = app.listen(port, () => {
@@ -114,7 +70,7 @@ catch (err) {
     console.error("Express-session config file not found", err);
 }
 
-const port = process.env.PORT ? parseInt(process.env.PORT): 3000 //3000 default
+const port = process.env.PORT ? parseInt(process.env.PORT): 3001 //3001 default
 
 const sessionOptions = {
     secret: process.env.SECRET,

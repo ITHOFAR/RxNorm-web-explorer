@@ -1,9 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import {Link, Route, Switch} from "react-router-dom";
 import styles from './App.module.css';
+import {Link, Route, Routes} from "react-router-dom";
 import {ResultItemPage} from './features/result/page-component/result-items-page';
-import {SearchItemPage} from './features/result/page-component/search-items-page';
+import {SearchItemPage} from './features/search/page-component/search-items-page';
 import {AboutPage} from './features/about/about';
 import {HomePage} from './features/home/home';
 
@@ -16,12 +16,12 @@ export default function App() {
             <Link to="/search">Search Database</Link>
             <Link to="/result">Search Results</Link>
          </nav>
-         <Switch>
+         <Routes>
             <Route path="/search"  component={SearchItemPage} />
             <Route path="/result"  component={ResultItemPage} />
-            <Route path="/about" component={AboutPage} />
-            <Route path="/"      component={HomePage} /> { /* needs to be last, it will match any path */}
-         </Switch>
+            <Route path="/about"   component={AboutPage} />
+            <Route path="/"        component={HomePage} /> { /* needs to be last, it will match any path */}
+         </Routes>
       </div>
    );
 }
