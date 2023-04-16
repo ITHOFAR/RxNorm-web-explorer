@@ -8,7 +8,7 @@ import session from 'express-session';
 import * as fs from 'fs'
 import cors from 'cors';
 
-async function start(staticResource, port, sessionOptions) {
+async function start(publicDir, clientDir, port, sessionOptions) {
 
     createPool(); //postgres connection pools
 
@@ -16,11 +16,14 @@ async function start(staticResource, port, sessionOptions) {
     //-----------middleware---------
     app.use(cors());
     app.use(session(sessionOptions));
-    app.use(express.static(staticResource));
+    app.use(express.static(publicDir));
     app.use(express.json());
     app.use(express.urlencoded({ extended: false})); 
     //-----------routing------------- 
     app.use("/api", apiRouter);
+    app.get('/*', function (req, res) { //handles all other paths
+        res.sendFile(path.join(clientDir, 'index.html'));
+     })
 
     //-----------running server----------
     const server = app.listen(port, () => {
@@ -38,6 +41,7 @@ async function start(staticResource, port, sessionOptions) {
 const __filename = fileURLToPath(import.meta.url); // /Users/ithofar/NYU Non cloud/Semester 6 NYU/AIT/final-project-ITHOFAR/server/app.mjs
 const __dirname = path.dirname(path.dirname(__filename)); // /Users/ithofar/NYU Non cloud/Semester 6 NYU/AIT/final-project-ITHOFAR
 
+const clientDir = path.join(__dirname, 'client'); // /Users/ithofar/NYU Non cloud/Semester 6 NYU/AIT/final-project-ITHOFAR/client
 const publicDir = path.join(__dirname, 'public'); // /Users/ithofar/NYU Non cloud/Semester 6 NYU/AIT/final-project-ITHOFAR/public
 const envDir = path.join(__dirname, 'envs'); // /Users/ithofar/NYU Non cloud/Semester 6 NYU/AIT/final-project-ITHOFAR/envs
 
@@ -78,4 +82,4 @@ const sessionOptions = {
     saveUninitialized: process.env.SAVEUNITITIALIZED
 };
 
-start(publicDir, port, sessionOptions);
+start(publicDir, clientDir, port, sessionOptions);

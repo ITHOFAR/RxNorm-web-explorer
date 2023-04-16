@@ -11,7 +11,7 @@ The application will store queried drugs and query results for each user
 
 * data to be queried stored in PostgreSQL (accessed by pg-pool and pg modules)
 * users can have multiple queries (results stored in PostgreSQL)
-* each query can contain multiple different pieces of information (by json_aggregation)
+* each query can contain multiple different pieces of information 
 
 Example Use 1:
 
@@ -31,10 +31,6 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 ![list create](documentation/search.svg)
 
-/login - page for authenticating user
-
-![list](documentation/login.svg)
-
 /result - page for showing results of a user
 
 ![list](documentation/results.svg)
@@ -45,26 +41,28 @@ See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL
 
 ## User Stories
 
-1. as non-registered user, I can register a new account with the site
-2. as a user, I can log in to the site
-3. as a user, I can search various drug identifiers
-4. as a user, I can view all of the queries and results on a single page
-5. as a user, I can add more queries to my results page by searching more
-6. as a user, I can remove queries from my results that are no longer useful
+1. I can query the database
+2. I can save my query result
+3. I can delete my query result
+4. I can edit and comment on my query results
+5. I can add more queries to my results page by searching more
+6. I can search my query results by the name I give them
 
 ## Research Topics
 
 * (3 points) currently using dotenv for express-session and pg-pool configuration.
 
+* (2 points) using PostgreSQL and pg-pool to communicate between server and database
+
 * (6 points) front-end will be a React app (WIP)
 
-* (3 points) plan to add unit tests with Jest to test querys etc... (WIP)
+* (2 points) react-router and react-select (WIP)
 
-bcrypt or passport for auth?
+13 points total out of 10 required points
 
-12 points total out of 10 required points
+## [Link to Initial Main Project Server File](server/app.mjs)
 
-## [Link to Initial Main Project File](server/app.mjs)
+## [Link to Initial Main Project Client File](client/src/main.jsx)
 
 ## Annotations / References Used
 
