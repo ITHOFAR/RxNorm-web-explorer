@@ -10,12 +10,14 @@ import {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     
-    const responce = await JSON.parse(fetch("/api/search", { //returns query result data
+    const responce = await fetch("/api/search/", { //returns query result data
       method: 'POST',
       body: JSON.stringify({ id: updates.id, t: updates.table, o: updates.option, comment: updates.comment})
-    }));
+    });
 
-    let updateVals = responce.body.json();
+    console.log(responce);
+    console.log(responce.body);
+    let updateVals = responce.json();
     updateVals = JSON.parse(updateVals);
     console.log(updateVals);
 

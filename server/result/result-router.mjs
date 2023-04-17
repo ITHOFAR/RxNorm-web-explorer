@@ -17,12 +17,10 @@ router.get("/", async (req, res) => {
    }
 });
 
-router.put("/delete", async (req, res) => {
-
+router.post("/delete", async (req, res) => {
     try
     {
-         const id = JSON.parse(req.body).id || null;
-
+         const id = req.body.id || null;
          await querySQL("DELETE FROM results where id = $1;", [id]);
    
          res.status(200)

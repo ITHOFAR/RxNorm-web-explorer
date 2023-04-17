@@ -22,5 +22,5 @@
     "@vitejs/plugin-react": "^3.1.0",
     "vite": "^4.2.0"
   },
-  "proxy": "http://localhost:3001"
+  "proxy": "http://127.0.0.1:3001"
 }

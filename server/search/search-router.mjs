@@ -35,7 +35,8 @@ router.post("/", async (req, res) => {
         // await querySQL(`INSERT INTO result (name, id, result, table, option) VALUES (${resultName}, ${1}, ${result}, ${t}, ${o});`);
         // await querySQL("INSERT INTO results (name, id, result) VALUES ($1, $2, $3)", [resultName, 3, JSON.stringify(result)]);
         // await querySQL("TRUNCATE TABLE results;");
-        res.status(200).json(JSON.stringify(resultObject));
+        const data = JSON.stringify(resultObject)
+        res.status(200).json(data);
    }
    catch (e)
    {
@@ -56,12 +57,13 @@ router.post("/update", async (req, res) => {
     }
 });
 
-router.post("/add/default", async (req, res) => {
+router.post("/add", async (req, res) => {
     try 
     {
-        const id = JSON.parse(req.body).id || null;
+        const id = req.body.id || null;
         await querySQL("INSERT INTO results (id) VALUES ($1)", [id]);
-        res.status(200).send(); //no message
+        
+        res.status(200); //no message
     }
     catch (e)
     {
