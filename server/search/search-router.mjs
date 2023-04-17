@@ -3,30 +3,39 @@ import {querySQL} from './../pg-pool-exec.mjs';
 
 export const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.post("/", async (req, res) => {
    try
    {
-        const {searchTarget, searchOption} = req.query || null;
-
+        const {id, t, o, comment} = JSON.parse(req.body) || null;
         let queryResult;
-        switch (searchOption) {
-            case 'All':
-                queryResult = await querySQL("select distinct * from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
+
+        switch (o) {
+            case 'All': // http://localhost:3001/api/search/?t=SCD&o=All
+                queryResult = await querySQL(`select distinct * from ${t} order by name asc fetch first 10 rows only;`);
                 break;
             case 'Name': 
-                queryResult = await querySQL("select distinct name from $1 order by name asc fetch first 10 rows only;", [searchTarget]);
+                queryResult = await querySQL(`select distinct name from ${t} order by name asc fetch first 10 rows only;`);
                 break;
             case 'Count': 
-                queryResult = await querySQL("select count(*) from $1;", [searchTarget]);
+                queryResult = await querySQL(`select count(*) from ${t};`);
                 break;
             default:
-                queryResult = await querySQL("select distinct * from scd order by name asc fetch first 10 rows only;");
+                queryResult = await querySQL("select distinct * from scd order by name asc fetch first 1 rows only;");
         }
-        const resultName = searchTarget + "_" + searchOption + "_" + new Date().getTime();
-        const result = JSON.stringify(queryResult.rows.map(rowToResult));
-        await querySQL("INSERT INTO results (name, result) VALUES ($1, $2)", [resultName, result]);
-        const resultObject = JSON.stringify({[resultName]: result});
-        res.status(200).send(resultObject);
+        const resultName = t ? t + "_" + o + "_" + new Date().getTime() : "SCD_ALL_" + new Date().getTime();
+        const result = queryResult.rows;
+        const resultObject = {
+            name: resultName, 
+            id: id,
+            results: result,
+            table: t,
+            option: o,
+            comment: comment
+        }
+        // await querySQL(`INSERT INTO result (name, id, result, table, option) VALUES (${resultName}, ${1}, ${result}, ${t}, ${o});`);
+        // await querySQL("INSERT INTO results (name, id, result) VALUES ($1, $2, $3)", [resultName, 3, JSON.stringify(result)]);
+        // await querySQL("TRUNCATE TABLE results;");
+        res.status(200).json(JSON.stringify(resultObject));
    }
    catch (e)
    {
@@ -34,18 +43,28 @@ router.get("/", async (req, res) => {
    }
 });
 
-function rowToResult(r) {
-    return {rxcui: r.rxcui, rxaui: r.rxaui, name: r.name};
-}
+router.post("/update", async (req, res) => {
+    try 
+    {
+        const {name, id, results, table, option, comment} = JSON.parse(req.body).query || null;
+        await querySQL("UPDATE results SET name = $1, results = $3, table = $4, option = $5, comment = $6 where id = $2", [name, id, results, table, option, comment]);
+        res.status(200).send();
+    }
+    catch (e)
+    {
+        res.status(404).send(e.message);
+    }
+});
 
-// function rowToSCD(r) {
-//     return {rxcui: r.rxcui, rxaui: r.rxaui, name: r.name, prescribale_name: prescribable_name, available_strengths: r.available_strengths};
-// }
-
-// function rowToSBD(r) {
-//     return {rxcui: r.rxcui, rxaui: r.rxaui, name: r.name, prescribale_name: prescribable_name, scd_rxcui: scd_rxcui, available_strengths: r.available_strengths};
-// }
-
-// function rowToMTHSPL(r) {
-//     return {rxcui: r.rxcui, rxaui: r.rxaui, ndc: r.code, name: r.name, scd_rxcui: scd_rxcui, sbd_rxcui: sbd_rxcui};
-// }
+router.post("/add/default", async (req, res) => {
+    try 
+    {
+        const id = JSON.parse(req.body).id || null;
+        await querySQL("INSERT INTO results (id) VALUES ($1)", [id]);
+        res.status(200).send(); //no message
+    }
+    catch (e)
+    {
+        res.status(404).send(e.message);
+    }
+});

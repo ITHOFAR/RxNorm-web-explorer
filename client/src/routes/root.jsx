@@ -7,16 +7,17 @@ import {
   useNavigation,
   useSubmit,
  } from "react-router-dom";
-import { getContacts, createContact } from "../contacts";
+import { getQuerys, createQuery } from "../querys";
 import { useEffect } from "react";
 
+
 export async function action() {
-  const contact = await createContact();
-  return redirect(`/contacts/${contact.id}/edit`);
+  const query = await createQuery();
+  return redirect(`/querys/${query.id}/edit`); //when new query is made, redirect to edit
 }
 
 export default function Root() {
-  const { contacts, q } = useLoaderData();
+  const { querys, q } = useLoaderData();
   const navigation = useNavigation();
   const submit = useSubmit();
 
@@ -25,19 +26,19 @@ export default function Root() {
     new URLSearchParams(navigation.location.search).has("q");
 
   useEffect(() => {
-    document.getElementById("q").value = q;
+    document.getElementById("q").value = q; 
   }, [q]);
 
     return (
       <>
         <div id="sidebar">
-          <h1>React Router Contacts</h1>
+          <h1>RxNorm Explorer Querys</h1>
           <div>
           <Form id="search-form" role="search">
               <input
                 id="q"
                 className={searching ? "loading" : ""}
-                aria-label="Search contacts"
+                aria-label="Search querys"
                 placeholder="Search"
                 type="search"
                 name="q"
@@ -64,12 +65,12 @@ export default function Root() {
           </Form>
           </div>
           <nav>
-          {contacts.length ? (
+          {querys.length ? (
             <ul>
-              {contacts.map((contact) => (
-                <li key={contact.id}>
+              {querys.map((query) => (
+                <li key={query.id}>
                   <NavLink
-                    to={`contacts/${contact.id}`}
+                    to={`querys/${query.id}`}
                     className={({ isActive, isPending }) =>
                       isActive
                         ? "active"
@@ -78,21 +79,20 @@ export default function Root() {
                         : ""
                     }
                   >
-                    {contact.first || contact.last ? (
+                    {query.name ? (
                       <>
-                        {contact.first} {contact.last}
+                        {query.name}
                       </>
                     ) : (
                       <i>No Name</i>
-                    )}{" "}
-                    {contact.favorite && <span>★</span>}
+                    )}
                   </NavLink>
                 </li>
               ))}
             </ul>
           ) : (
             <p>
-              <i>No contacts</i>
+              <i>No querys</i>
             </p>
           )}
           </nav>
@@ -110,6 +110,8 @@ export default function Root() {
   export async function loader({ request }) {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
-    const contacts = await getContacts(q);
-    return { contacts, q };
+    const querys = await getQuerys(q);
+    // console.log(q);
+    console.log(querys);
+    return { querys, q };
   }

@@ -18,7 +18,7 @@ async function start(publicDir, clientDir, port, sessionOptions) {
     app.use(session(sessionOptions));
     app.use(express.static(publicDir));
     app.use(express.json());
-    app.use(express.urlencoded({ extended: false})); 
+    // app.use(express.urlencoded({ extended: false})); 
     //-----------routing------------- 
     app.use("/api", apiRouter);
     app.get('/*', function (req, res) { //handles all other paths

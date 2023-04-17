@@ -4,62 +4,66 @@ import {
     redirect,
     useNavigate,
  } from "react-router-dom";
- import { updateContact } from "../contacts";
+ import { updateQuery } from "../querys";
 
  export async function action({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-    await updateContact(params.contactId, updates);
-    return redirect(`/contacts/${params.contactId}`);
-  }
+    
+    const responce = await JSON.parse(fetch("/api/search", { //returns query result data
+      method: 'POST',
+      body: JSON.stringify({ id: updates.id, t: updates.table, o: updates.option, comment: updates.comment})
+    }));
 
-export default function EditContact() {
-  const { contact } = useLoaderData();
+    let updateVals = responce.body.json();
+    updateVals = JSON.parse(updateVals);
+    console.log(updateVals);
+
+    await updateQuery(params.queryId, Object.fromEntries(updateVals));
+    return redirect(`/querys/${params.queryId}`);
+};
+
+export default function EditQuery() {
+  const { query } = useLoaderData();
   const navigate = useNavigate();
 
   return (
-    <Form method="post" id="contact-form">
+    <Form method="post" id="query-form">
       <p>
-        <span>Name</span>
+        <span>Database Table</span> 
+        {/* TODO USE REACT-SELECT */}
         <input
-          placeholder="First"
-          aria-label="First name"
+          placeholder="SCD"
+          aria-label="Table name"
           type="text"
-          name="first"
-          defaultValue={contact.first}
-        />
-        <input
-          placeholder="Last"
-          aria-label="Last name"
-          type="text"
-          name="last"
-          defaultValue={contact.last}
+          name="table"
+          defaultValue={query.table}
         />
       </p>
       <label>
-        <span>Twitter</span>
+        <span>Query Options</span>
         <input
           type="text"
-          name="twitter"
-          placeholder="@jack"
-          defaultValue={contact.twitter}
+          name="option"
+          placeholder="ALL"
+          defaultValue={query.option}
         />
       </label>
       <label>
-        <span>Avatar URL</span>
+        <span>Custom Name</span>
         <input
-          placeholder="https://example.com/avatar.jpg"
-          aria-label="Avatar URL"
+          placeholder="My Awesome Query"
+          aria-label="Custom Name"
           type="text"
-          name="avatar"
-          defaultValue={contact.avatar}
+          name="name"
+          defaultValue={query.name}
         />
       </label>
       <label>
-        <span>Notes</span>
+        <span>Comments</span>
         <textarea
-          name="notes"
-          defaultValue={contact.notes}
+          name="comment"
+          defaultValue={query.comment}
           rows={6}
         />
       </label>

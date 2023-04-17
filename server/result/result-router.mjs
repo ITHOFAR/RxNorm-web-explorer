@@ -7,8 +7,9 @@ router.get("/", async (req, res) => {
    try
    {
       const results = await querySQL(`select * from results;`);
+      const data = JSON.stringify(results.rows)
 
-      res.status(200).send(results.rows); //SENDS JSON {{resultname: results}}
+      res.status(200).json(data); //SENDS JSON {{resultname: results}}
    }
    catch (e)
    {
@@ -16,15 +17,15 @@ router.get("/", async (req, res) => {
    }
 });
 
-router.delete("/", async (req, res) => {
+router.put("/delete", async (req, res) => {
 
     try
     {
-        const name = req.body.ResultName;
+         const id = JSON.parse(req.body).id || null;
 
-        await querySQL("DELETE FROM results where name = $1;", [name]);
- 
-        res.status(200)
+         await querySQL("DELETE FROM results where id = $1;", [id]);
+   
+         res.status(200)
     }
     catch (e)
     {

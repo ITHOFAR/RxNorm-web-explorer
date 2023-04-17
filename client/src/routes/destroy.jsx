@@ -1,7 +1,7 @@
 import { redirect } from "react-router-dom";
-import { deleteContact } from "../contacts";
+import { deleteQuery } from "../querys";
 
 export async function action({ params }) {
-    await deleteContact(params.contactId);
+    await deleteQuery(params.queryId);
     return redirect("/");
 }

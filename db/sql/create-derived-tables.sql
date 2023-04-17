@@ -459,6 +459,10 @@ create table mthspl_prod_nhric (
 create index ix_mthsplproddcsa_nhric on mthspl_prod_nhric(nhric);
 
 create table results (
-  name varchar(2000) primary key,
-  result jsonb not null
-)
+  name varchar(2000) ,
+  id varchar(200) primary key,
+  result jsonb ,
+  table varchar(20) ,
+  option varchar(50) ,
+  comment varchar(2000)
+);

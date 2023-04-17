@@ -6,15 +6,14 @@ import {
 } from "react-router-dom";
 import './index.css'
 import ErrorPage from "./error-page";
-import Contact, {
-  action as contactAction,
-  loader as contactLoader,
-} from "./routes/contact";
+import Query, {
+  loader as queryLoader,
+} from "./routes/query";
 import Root, { 
   loader as rootLoader,
   action as rootAction,
  } from "./routes/root";
- import EditContact, {
+ import EditQuery, {
   action as editAction,
  } from "./routes/edit";
  import { action as destroyAction } from "./routes/destroy";
@@ -33,19 +32,18 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Index /> },
           {
-            path: "contacts/:contactId",
-            element: <Contact />,
-            loader: contactLoader,
-            action: contactAction,
+            path: "querys/:queryId",
+            element: <Query />,
+            loader: queryLoader,
           },
           {
-            path: "contacts/:contactId/edit",
-            element: <EditContact />,
-            loader: contactLoader,
+            path: "querys/:queryId/edit",
+            element: <EditQuery />,
+            loader: queryLoader,
             action: editAction,
           },
           {
-            path: "contacts/:contactId/destroy",
+            path: "querys/:queryId/destroy",
             action: destroyAction,
           },
         ],
