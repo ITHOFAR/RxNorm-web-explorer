@@ -43,7 +43,7 @@ router.post("/", async (req, res) => {
    }
    catch (e)
    {
-        res.status(404).send(e.message);
+        res.status(500).send(e.message);
    }
 });
 
@@ -56,7 +56,7 @@ router.post("/update", async (req, res) => {
     }
     catch (e)
     {
-        res.status(404).send(e.message);
+        res.status(500).send(e.message);
     }
 });
 
@@ -70,6 +70,6 @@ router.post("/add", async (req, res) => {
     }
     catch (e)
     {
-        res.status(404).send(e.message);
+        res.status(500).send(e.message);
     }
 });

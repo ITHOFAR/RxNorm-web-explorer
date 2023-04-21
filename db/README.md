@@ -22,7 +22,7 @@ docker build -t rxnorm-pg .
 Example using Bash/zsh to export location of data:
 
 ```sh
-DATA_DIR="$HOME/Downloads/(RxNorm-FileName)/rrf"
+DATA_DIR="$HOME/Downloads/rrf"
 export DATA_DIR
 ```
 
