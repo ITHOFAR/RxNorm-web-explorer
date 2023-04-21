@@ -17,9 +17,6 @@ export async function loader({ params }) {
 
 export default function Query() {
     const { query } = useLoaderData();
-
-    console.log(query.result);
-    console.log(query.result[0].rxaui);
   
     return (
       <div id="query"> 
@@ -36,16 +33,28 @@ export default function Query() {
           </h3>
         )}
   
-        {query.result && ( //TODO EXPAND AND MAKE LOOK NICE
-            <h3>
-                User Results: 
-                    {query.result.map((res) => 
-                  <p classname="queryResult" key={res.rxaui}>{Object.entries(res).map((pair) => 
-                  `${pair[0]}: ${pair[1]} `)}</p>)}
-            </h3>
-          )}
+        {query.result ? ( //TODO EXPAND AND MAKE LOOK NICE
+            <div className="table-container" role="table" aria-label="QueryResults">
+              <div className="flex-table header" role="rowgroup">
+                <div className="flex-row first" role="columnheader">{Object.keys(query.result[0])[0]}</div>
+                {Object.keys(query.result[0]).slice(1).map((val, index) => 
+                  <div key={index} className="flex-row" role="columnheader">{val}</div>
+                )}
+              </div>
+              {query.result.map((obj, index) => 
+                <div className="flex-table row" key={index} role="rowgroup">
+                  <div className="flex-row first" role="cell"><span className="QueryValues">{Object.values(obj)[0]}</span> </div>
+                  {Object.values(obj).slice(1).map((val, index) => 
+                    <div className="flex-row" key={index}role="cell">{val}</div>
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        : (<i>No Query Result</i>)}
 
-        {query.comment && <h3>{query.comment}</h3>}
+        {query.comment ? (<h3>Comments: "{query.comment}"</h3>)
+        :(<p><b>Please Search by using the Edit Button to fill out your query</b></p>)}
   
           <div>
             <Form action="edit">

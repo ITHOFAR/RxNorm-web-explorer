@@ -22,23 +22,23 @@ import Root, {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Root />,
-    errorElement: <ErrorPage />,
+    element: <Root/>,
+    errorElement: <ErrorPage/>,
     loader: rootLoader,
     action: rootAction,
     children: [
       {
-        errorElement: <ErrorPage />,
+        errorElement: <ErrorPage/>,
         children: [
-          { index: true, element: <Index /> },
+          { index: true, element: <Index/> },
           {
             path: "querys/:queryId",
-            element: <Query />,
+            element: <Query/>,
             loader: queryLoader,
           },
           {
             path: "querys/:queryId/edit",
-            element: <EditQuery />,
+            element: <EditQuery/>,
             loader: queryLoader,
             action: editAction,
           },

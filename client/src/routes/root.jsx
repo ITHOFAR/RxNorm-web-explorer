@@ -13,6 +13,8 @@ import { useEffect } from "react";
 
 export async function action() {
   const query = await createQuery(); 
+  console.log("DID I RUN");
+  console.log(query);
   return redirect(`/querys/${query.id}/edit`); //when new query is made, redirect to edit
 }
 
@@ -26,8 +28,7 @@ export default function Root() {
     new URLSearchParams(navigation.location.search).has("q");
 
   useEffect(() => {
-    document.getElementById("q").value = q; 
-  }, [q]);
+    document.getElementById("q").value = q;}, [q]);
 
     return (
       <>
@@ -59,8 +60,8 @@ export default function Root() {
                 className="sr-only"
                 aria-live="polite"
               ></div>
-            </Form>
-            <Form method="post">
+          </Form>
+          <Form method="post">
             <button type="submit">New</button>
           </Form>
           </div>
@@ -69,8 +70,7 @@ export default function Root() {
             <ul>
               {querys.map((query) => (
                 <li key={query.id}>
-                  <NavLink
-                    to={`querys/${query.id}`}
+                  <NavLink to={`querys/${query.id}`}
                     className={({ isActive, isPending }) =>
                       isActive
                         ? "active"

@@ -1,7 +1,7 @@
 import { matchSorter } from "match-sorter";
 import sortBy from "sort-by";
 
-export async function getQuerys(query) {
+export async function getQuerys(search) {
     let responce = await fetch("/api/result", {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
@@ -13,8 +13,8 @@ export async function getQuerys(query) {
 
     querys = await JSON.parse(querys);
 
-    if (query) {
-      querys = matchSorter(querys, query, { keys: ["table", "option"] }); //filter if possible based on name
+    if (search) {
+      querys = matchSorter(querys, search, { keys: ["name"] });
     }
     return querys.sort(sortBy("name"));
 };
