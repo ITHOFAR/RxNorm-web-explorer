@@ -13,8 +13,6 @@ import { useEffect } from "react";
 
 export async function action() {
   const query = await createQuery(); 
-  console.log("DID I RUN");
-  console.log(query);
   return redirect(`/querys/${query.id}/edit`); //when new query is made, redirect to edit
 }
 

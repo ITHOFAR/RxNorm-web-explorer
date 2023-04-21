@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
                 queryResult = await querySQL("select distinct * from SCD order by name asc fetch first 1 rows only;");
         }
         
-        const resultName = table ? table + "_" + option + "_" + new Date().getTime() : "SCD_ALL_" + new Date().getTime();
+        const resultName = table ? table + " + " + option + ": " + "No Custom Name" : "SCD + ALL: Default Query";
         name = name ? name : resultName;
 
         const result = JSON.stringify(queryResult.rows);
