@@ -52,6 +52,15 @@ export default function EditQuery() {
         />
       </label>
       <label>
+        <span>Name to be searched</span>
+        <input
+          type="text"
+          name="searchName"
+          placeholder="abacavir"
+          defaultValue={query.paramater}
+        />
+      </label>
+      <label>
         <span>Custom Name</span>
         <input
           placeholder="My Awesome Query"

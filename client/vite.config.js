@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api/": {target: "http://127.0.0.1:3001", changeOrigin: true, secure: false},
-      "/api/result/": {target: "http://127.0.0.1:3001", changeOrigin: true, secure: false},
-      "/api/search/": {target: "http://127.0.0.1:3001", changeOrigin: true, secure: false},
-      "/api/search/update/": {target: "http://127.0.0.1:3001", changeOrigin: true, secure: false},
-      "/api/search/add": {target: "http://127.0.0.1:3001", changeOrigin: true, secure: false},
+      "/api": {target: "http://localhost:3001", changeOrigin: true, secure: false},
+      // "/api/result": {target: "http://localhost:3001", changeOrigin: true, secure: false},
+      // "/api/search": {target: "http://localhost:3001", changeOrigin: true, secure: false},
+      // "/api/search/update": {target: "http://localhost:3001", changeOrigin: true, secure: false},
+      // "/api/search/add": {target: "http://localhost:3001", changeOrigin: true, secure: false},
     },
     port: 18566,
   },

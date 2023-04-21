@@ -23,7 +23,7 @@ export async function createQuery() { //hit database with search upon "edit" not
     let id = Math.random().toString(36).substring(2, 9);
     let newQuery = { id };
 
-    await fetch("http://localhost:3001/api/search/add", { //adds query with only ID, will fill in rest at update
+    await fetch("/api/search/add", { //adds query with only ID, will fill in rest at update
         // http://localhost:3001/api/search/add/default
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -45,7 +45,7 @@ export async function deleteQuery(id) {
     let index = querys.findIndex(query => query.id === id);
 
     if (index > -1) { //id exist
-        await fetch("http://localhost:3001/api/result/delete", { //remove from database
+        await fetch("/api/result/delete", { //remove from database
             ///api/result/delete
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },

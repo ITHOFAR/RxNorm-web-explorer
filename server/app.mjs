@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import * as dotenv from 'dotenv';
 import apiRouter from "./api-routers.mjs";
-import {createPool, closePool} from './pg-pool-exec.mjs';
+import {createPool, closePool, querySQL} from './pg-pool-exec.mjs';
 import session from 'express-session';
 import * as fs from 'fs'
 import cors from 'cors';
@@ -21,6 +21,13 @@ async function start(publicDir, clientDir, port, sessionOptions) {
     // app.use(express.urlencoded({ extended: false})); 
     //-----------routing------------- 
     app.use("/api", apiRouter);
+    app.get("/testRoute", async function(req, res) { //TEST ROUTE
+        let table = req.query.table;
+        let option = req.query.option;
+        const sql = `select ${option} from ${table} order by name asc fetch first 1 rows only;`;
+        let result = await querySQL(sql);
+        res.send(result.rows);
+    });
     app.get('/*', function (req, res) { //handles all other paths
         res.sendFile(path.join(clientDir, 'index.html'));
      })

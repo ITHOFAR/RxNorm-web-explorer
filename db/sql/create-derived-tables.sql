@@ -464,5 +464,6 @@ create table results (
   result jsonb ,
   table varchar(20) ,
   option varchar(50) ,
-  comment varchar(2000)
+  comment varchar(2000),
+  paramater varchar(200)
 );

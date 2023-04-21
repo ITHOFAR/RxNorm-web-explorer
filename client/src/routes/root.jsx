@@ -38,7 +38,7 @@ export default function Root() {
               <input
                 id="q"
                 className={searching ? "loading" : ""}
-                aria-label="Search querys"
+                aria-label="Search query results"
                 placeholder="Search"
                 type="search"
                 name="q"
@@ -111,7 +111,5 @@ export default function Root() {
     const url = new URL(request.url);
     const q = url.searchParams.get("q");
     const querys = await getQuerys(q);
-    // console.log(q);
-    console.log(querys);
     return { querys, q };
   }
