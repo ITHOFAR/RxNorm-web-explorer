@@ -7,10 +7,6 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {target: "http://localhost:3001", changeOrigin: true, secure: false},
-      // "/api/result": {target: "http://localhost:3001", changeOrigin: true, secure: false},
-      // "/api/search": {target: "http://localhost:3001", changeOrigin: true, secure: false},
-      // "/api/search/update": {target: "http://localhost:3001", changeOrigin: true, secure: false},
-      // "/api/search/add": {target: "http://localhost:3001", changeOrigin: true, secure: false},
     },
     port: 18566,
   },

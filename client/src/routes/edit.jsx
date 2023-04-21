@@ -10,18 +10,16 @@ import {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     
-    const responce = await fetch("/api/search/", { //returns query result data
+    const responce = await fetch("/api/search", { //returns query result data
       method: 'POST',
-      body: JSON.stringify({ id: updates.id, t: updates.table, o: updates.option, comment: updates.comment})
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name: updates.name, id: params.queryId, table: updates.table, option: updates.option, comment: updates.comment, parameter: updates.parameter })
     });
 
-    console.log(responce);
-    console.log(responce.body);
-    let updateVals = responce.json();
+    let updateVals = await responce.json();
     updateVals = JSON.parse(updateVals);
-    console.log(updateVals);
 
-    await updateQuery(params.queryId, Object.fromEntries(updateVals));
+    await updateQuery(params.queryId, updateVals);
     return redirect(`/querys/${params.queryId}`);
 };
 
@@ -52,12 +50,12 @@ export default function EditQuery() {
         />
       </label>
       <label>
-        <span>Name to be searched</span>
+        <span>Drug Name to search</span>
         <input
           type="text"
-          name="searchName"
+          name="parameter"
           placeholder="abacavir"
-          defaultValue={query.paramater}
+          defaultValue={query.parameter}
         />
       </label>
       <label>

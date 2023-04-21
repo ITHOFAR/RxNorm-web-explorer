@@ -19,6 +19,19 @@ export async function getQuerys(query) {
     return querys.sort(sortBy("name"));
 };
 
+export async function getQuery(id) {
+    let responce = await fetch("/api/result", {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    }); //fetch all results, JSON object
+
+    let querys = await responce.json();
+    querys = await JSON.parse(querys);
+
+    let query = querys.find(query => query.id === id);
+    return query ?? null;
+};
+
 export async function createQuery() { //hit database with search upon "edit" not create
     let id = Math.random().toString(36).substring(2, 9);
     let newQuery = { id };
@@ -54,19 +67,6 @@ export async function deleteQuery(id) {
     }
     return false;
 };
-
-export async function getQuery(id) {
-    let responce = await fetch("/api/result", {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    }); //fetch all results, JSON object
-
-    let querys = await responce.json();
-    querys = await JSON.parse(querys);
-
-    let query = querys.find(query => query.id === id);
-    return query ?? null;
-};
   
 export async function updateQuery(id, updatedVals) {
     let responce = await fetch("/api/result", {
@@ -89,5 +89,5 @@ export async function updateQuery(id, updatedVals) {
         body: JSON.stringify({ query: query })
     });
 
-    return contact;
+    return query;
 };

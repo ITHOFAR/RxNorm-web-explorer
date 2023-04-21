@@ -6,38 +6,37 @@ export const router = express.Router();
 router.post("/", async (req, res) => {
    try
    {
-        let {name, id, t, o, comment, parameter} = JSON.parse(req.body) || null;
+        let {name, id, table, option, comment, parameter} = req.body || null;
         let queryResult;
 
-        switch (o) {
+        switch (option) {
             case 'All': // http://localhost:3001/api/search/?t=SCD&o=All
-                queryResult = await querySQL(`select distinct * from ${t} order by name asc fetch first 10 rows only;`);
+                queryResult = await querySQL(`select distinct * from ${table} order by name asc fetch first 10 rows only;`);
                 break;
             case 'Name': 
-                queryResult = await querySQL(`select distinct name from ${t} order by name asc fetch first 10 rows only;`);
+                queryResult = await querySQL(`select distinct name from ${table} order by name asc fetch first 10 rows only;`);
                 break;
             case 'Count': 
-                queryResult = await querySQL(`select count(*) from ${t};`);
+                queryResult = await querySQL(`select count(*) from ${table};`);
                 break;
             default:
-                queryResult = await querySQL("select distinct * from scd order by name asc fetch first 1 rows only;");
+                queryResult = await querySQL("select distinct * from SCD order by name asc fetch first 1 rows only;");
         }
-        const resultName = t ? t + "_" + o + "_" + new Date().getTime() : "SCD_ALL_" + new Date().getTime();
+        
+        const resultName = table ? table + "_" + option + "_" + new Date().getTime() : "SCD_ALL_" + new Date().getTime();
         name = name ? name : resultName;
 
-        const result = queryResult.rows;
+        const result = JSON.stringify(queryResult.rows);
         const resultObject = {
             name: name, 
             id: id,
-            results: result,
-            table: t,
-            option: o,
+            result: result,
+            table: table,
+            option: option,
             comment: comment,
             parameter: parameter
         }
-        // await querySQL(`INSERT INTO result (name, id, result, table, option) VALUES (${resultName}, ${1}, ${result}, ${t}, ${o});`);
-        // await querySQL("INSERT INTO results (name, id, result) VALUES ($1, $2, $3)", [resultName, 3, JSON.stringify(result)]);
-        // await querySQL("TRUNCATE TABLE results;");
+
         const data = JSON.stringify(resultObject)
         res.status(200).json(data);
    }
@@ -50,8 +49,9 @@ router.post("/", async (req, res) => {
 router.post("/update", async (req, res) => {
     try 
     {
-        const {name, id, results, table, option, comment, parameter} = JSON.parse(req.body).query || null;
-        await querySQL("UPDATE results SET name = $1, results = $3, table = $4, option = $5, comment = $6, paramter = $7 where id = $2", [name, id, results, table, option, comment, parameter]);
+        const {name, id, result, table, option, comment, parameter} = req.body.query || null;
+        let sql = `UPDATE results SET name = $1, result = $3, "table" = $4, option = $5, comment = $6, parameter = $7 where id = $2`
+        await querySQL(sql, [name, id, result, table, option, comment, parameter]);
         res.status(200).send();
     }
     catch (e)

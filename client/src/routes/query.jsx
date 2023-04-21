@@ -17,33 +17,35 @@ export async function loader({ params }) {
 
 export default function Query() {
     const { query } = useLoaderData();
+
+    console.log(query.result);
+    console.log(query.result[0].rxaui);
   
     return (
       <div id="query"> 
         <div>
-          <h1>
-            {query.name ? (
-              <>
-                {query.name}
-              </>
-            ) : (
-              <i>No Name</i>
-            )}
+          <h1> {query.name ? (<> {query.name} </>) 
+          : (<i>No Name</i>)}
           </h1>
 
-          { (query.table && query.option) && (
-          <p>
-            {query.option} {query.table}
-          </p>
+        {query.parameter && <h3>Searched: "{query.parameter}"</h3>}
+
+        {(query.table && query.option) && (
+          <h3>
+             From Table: "{query.table}" using Option: "{query.option}" 
+          </h3>
         )}
   
-          {query.result && ( //TODO EXPAND AND MAKE LOOK NICE
-            <p>
-                {Object.toString(query.result)}
-            </p>
+        {query.result && ( //TODO EXPAND AND MAKE LOOK NICE
+            <h3>
+                User Results: 
+                    {query.result.map((res) => 
+                  <p classname="queryResult" key={res.rxaui}>{Object.entries(res).map((pair) => 
+                  `${pair[0]}: ${pair[1]} `)}</p>)}
+            </h3>
           )}
-  
-          {query.comment && <p>{contact.comment}</p>}
+
+        {query.comment && <h3>{query.comment}</h3>}
   
           <div>
             <Form action="edit">
