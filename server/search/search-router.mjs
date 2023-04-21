@@ -64,9 +64,10 @@ router.post("/add", async (req, res) => {
     try 
     {
         const id = req.body.id || null;
-        await querySQL("INSERT INTO results (id) VALUES ($1)", [id]);
+        let sql = "INSERT INTO results (id) VALUES ($1);"
+        await querySQL(sql, [id]);
         
-        res.status(200).send(); //no message
+        res.status(200); //no message
     }
     catch (e)
     {

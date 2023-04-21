@@ -39,7 +39,7 @@ export default function Query() {
   
           {query.result && ( //TODO EXPAND AND MAKE LOOK NICE
             <p>
-                {Object.keys(query.result)}
+                {Object.toString(query.result)}
             </p>
           )}
   

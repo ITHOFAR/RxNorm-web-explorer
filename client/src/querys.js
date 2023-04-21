@@ -24,7 +24,6 @@ export async function createQuery() { //hit database with search upon "edit" not
     let newQuery = { id };
 
     await fetch("/api/search/add", { //adds query with only ID, will fill in rest at update
-        // http://localhost:3001/api/search/add/default
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ id: id })
