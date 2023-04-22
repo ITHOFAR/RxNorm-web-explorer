@@ -29,30 +29,48 @@ export default function EditQuery() {
   const { query } = useLoaderData();
   const navigate = useNavigate();
 
+  const tableOptions = [
+    { value: "SCD", label: "SCD: Semantic Clinical Drug"},
+    { value: "SBD", label: "SBD: Semantic Branded Drug"},
+    { value: "mthspl_prod", label: "MTHSPL: FDA Structured Product Labels"},
+  ];
+
+  const optionOptions = [
+    { value: "ALL", label: "ALL: All information"},
+    { value: "Name", label: "Name: Name only"},
+    { value: "Count", label: "Count: Amount only"},
+  ];
+
   return (
     <Form method="post" id="query-form">
       <p>
-        <span>Database Table</span> 
-        {/* TODO USE REACT-SELECT */}
-        <input
-          placeholder="SCD"
-          aria-label="Table name"
-          type="text"
+        <span>Database Table:</span> 
+        <Select
+          className="Table name"
+          defaultValue={tableOptions[0]}
           name="table"
-          defaultValue={query.table}
+          options={tableOptions}
+          isSearchable={false}
+          styles={{
+            indicatorSeparator: () => ({ display: "none" }),
+          }}
         />
       </p>
       <label>
-        <span>Query Options</span>
-        <input
-          type="text"
+        <span>Query Options:</span>
+        <Select
+          className="option name"
+          defaultValue={optionOptions[0]}
           name="option"
-          placeholder="ALL"
-          defaultValue={query.option}
+          options={optionOptions}
+          isSearchable={false}
+          styles={{
+            indicatorSeparator: () => ({ display: "none" }),
+          }}
         />
       </label>
       <label>
-        <span>Drug Name to search</span>
+        <span>Name to Search:</span>
         <input
           type="text"
           name="parameter"

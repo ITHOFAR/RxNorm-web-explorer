@@ -10,7 +10,7 @@ router.post("/", async (req, res) => {
         let queryResult;
 
         switch (option) {
-            case 'All': // http://localhost:3001/api/search/?t=SCD&o=All
+            case 'All': 
                 queryResult = await querySQL(`select distinct * from ${table} order by name asc fetch first 1 rows only;`);
                 break;
             case 'Name': 

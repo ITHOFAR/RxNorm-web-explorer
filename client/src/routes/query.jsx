@@ -53,8 +53,8 @@ export default function Query() {
           )
         : (<i>No Query Result</i>)}
 
-        {query.comment ? (<h3>Comments: "{query.comment}"</h3>)
-        :(<p><b>Please Search by using the Edit Button to fill out your query</b></p>)}
+        {(query.comment) ? (<h3>Comments: "{query.comment}"</h3>)
+        :(<p><b>Try using the Edit Button to fill out your query and add custom comments</b></p>)}
   
           <div>
             <Form action="edit">
