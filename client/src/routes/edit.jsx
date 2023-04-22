@@ -11,6 +11,8 @@ import {
  export async function action({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
+
+    console.log(updates);
     
     const responce = await fetch("/api/search", { //returns query result data
       method: 'POST',
@@ -20,6 +22,7 @@ import {
 
     let updateVals = await responce.json();
     updateVals = JSON.parse(updateVals);
+    console.log(updateVals);
 
     await updateQuery(params.queryId, updateVals);
     return redirect(`/querys/${params.queryId}`);
@@ -43,25 +46,28 @@ export default function EditQuery() {
 
   return (
     <Form method="post" id="query-form">
-      <p>
-        <span>Database Table:</span> 
-        <Select
-          className="Table name"
-          defaultValue={tableOptions[0]}
-          name="table"
-          options={tableOptions}
-          isSearchable={false}
-          styles={{
-            indicatorSeparator: () => ({ display: "none" }),
-          }}
-        />
-      </p>
-      <label>
-        <span>Query Options:</span>
+        <label htmlFor="aria-table-select">
+          Database Table:&nbsp;&nbsp; 
+          <Select
+            className="Table name"
+            defaultValue={tableOptions[0]}
+            name="table"
+            inputId="aria-table-select"
+            options={tableOptions}
+            isSearchable={false}
+            styles={{
+              indicatorSeparator: () => ({ display: "none" }),
+            }}
+          />
+        </label> 
+        
+      <label htmlFor="aria-option-select">
+        Query Options:&nbsp;&nbsp;&nbsp;&nbsp; 
         <Select
           className="option name"
           defaultValue={optionOptions[0]}
           name="option"
+          inputId="aria-option-select"
           options={optionOptions}
           isSearchable={false}
           styles={{

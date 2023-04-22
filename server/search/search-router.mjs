@@ -9,20 +9,36 @@ router.post("/", async (req, res) => {
         let {name, id, table, option, comment, parameter} = req.body || null;
         let queryResult;
 
-        switch (option) {
-            case 'All': 
-                queryResult = await querySQL(`select distinct * from ${table} order by name asc fetch first 1 rows only;`);
-                break;
-            case 'Name': 
-                queryResult = await querySQL(`select distinct name from ${table} order by name asc fetch first 1 rows only;`);
-                break;
-            case 'Count': 
-                queryResult = await querySQL(`select count(*) from ${table};`);
-                break;
-            default:
-                queryResult = await querySQL("select distinct * from SCD order by name asc fetch first 1 rows only;");
+        if (parameter.length > 0) {
+            switch (option) {
+                case 'All': 
+                    queryResult = await querySQL(`select distinct * from ${table} where name ilike $1 or prescribable_name ilike $1  order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
+                    break;
+                case 'Name': 
+                    queryResult = await querySQL(`select distinct name from ${table} where name ilike $1 or prescribable_name ilike $1 order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
+                    break;
+                case 'Count': 
+                    queryResult = await querySQL(`select count(*) from ${table} where name ilike $1 or prescribable_name ilike $1 ;`, ['%' + (parameter || '') + '%']);
+                    break;
+                default:
+                    queryResult = await querySQL("select distinct * from SCD where name ilike $1 or prescribable_name ilike $1  order by name asc fetch first 5 rows only;", ['%' + (parameter || '') + '%']);
+            }
         }
-        
+        else {
+            switch (option) {
+                case 'All': 
+                    queryResult = await querySQL(`select distinct * from ${table} order by name asc fetch first 5 rows only;`);
+                    break;
+                case 'Name': 
+                    queryResult = await querySQL(`select distinct name from ${table} order by name asc fetch first 5 rows only;`);
+                    break;
+                case 'Count': 
+                    queryResult = await querySQL(`select count(*) from ${table};`);
+                    break;
+                default:
+                    queryResult = await querySQL("select distinct * from SCD order by name asc fetch first 5 rows only;");
+            }
+        }
         const resultName = table ? table + " + " + option + ": " + "No Custom Name" : "SCD + ALL: Default Query";
         name = name ? name : resultName;
 

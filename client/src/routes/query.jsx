@@ -33,7 +33,7 @@ export default function Query() {
           </h3>
         )}
   
-        {query.result ? ( //TODO EXPAND AND MAKE LOOK NICE
+        {query.result ? ( 
             <div className="table-container" role="table" aria-label="QueryResults">
               <div className="flex-table header" role="rowgroup">
                 <div className="flex-row first" role="columnheader">{Object.keys(query.result[0])[0]}</div>
