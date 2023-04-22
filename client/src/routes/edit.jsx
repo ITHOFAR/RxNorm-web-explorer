@@ -5,6 +5,8 @@ import {
     useNavigate,
  } from "react-router-dom";
  import { updateQuery } from "../querys";
+ import Select from 'react-select';
+
 
  export async function action({ request, params }) {
     const formData = await request.formData();
