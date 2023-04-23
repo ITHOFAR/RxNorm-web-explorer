@@ -18,9 +18,6 @@ export async function loader({ params }) {
 export default function Query() {
     const { query } = useLoaderData();
 
-    console.log(query);
-    console.log(query.result);
-
     return (
       <div id="query"> 
         <div>
