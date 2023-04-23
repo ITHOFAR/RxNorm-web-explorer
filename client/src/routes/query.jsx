@@ -36,9 +36,9 @@ export default function Query() {
         {query.result ? ( 
             <div className="table-container" role="table" aria-label="QueryResults">
               <div className="flex-table header" role="rowgroup">
-                <div className="flex-row first" role="columnheader">{Object.keys(query.result[0])[0]}</div>
+                <div className="flex-row first" role="columnheader"><b>{Object.keys(query.result[0])[0]}</b></div>
                 {Object.keys(query.result[0]).slice(1).map((val, index) => 
-                  <div key={index} className="flex-row" role="columnheader">{val}</div>
+                  <div key={index} className="flex-row" role="columnheader"><b>{val}</b></div>
                 )}
               </div>
               {query.result.map((obj, index) => 

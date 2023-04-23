@@ -98,6 +98,7 @@ export default function EditQuery() {
         <span>Comments</span>
         <textarea
           name="comment"
+          placeholder="In this version of the app, only the first 5 results will be displayed"
           defaultValue={query.comment}
           rows={6}
         />
