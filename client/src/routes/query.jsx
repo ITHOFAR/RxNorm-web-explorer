@@ -17,7 +17,10 @@ export async function loader({ params }) {
 
 export default function Query() {
     const { query } = useLoaderData();
-  
+
+    console.log(query);
+    console.log(query.result);
+
     return (
       <div id="query"> 
         <div>
@@ -33,22 +36,25 @@ export default function Query() {
           </h3>
         )}
   
-        {query.result ? ( 
-            <div className="table-container" role="table" aria-label="QueryResults">
-              <div className="flex-table header" role="rowgroup">
-                <div className="flex-row first" role="columnheader"><b>{Object.keys(query.result[0])[0]}</b></div>
-                {Object.keys(query.result[0]).slice(1).map((val, index) => 
-                  <div key={index} className="flex-row" role="columnheader"><b>{val}</b></div>
-                )}
-              </div>
-              {query.result.map((obj, index) => 
-                <div className="flex-table row" key={index} role="rowgroup">
-                  <div className="flex-row first" role="cell"><span className="QueryValues">{Object.values(obj)[0]}</span> </div>
-                  {Object.values(obj).slice(1).map((val, index) => 
-                    <div className="flex-row" key={index}role="cell">{val}</div>
+        {(query.result && query.result.length > 0) ? ( 
+            <div className="tableDiv" aria-label="tableDiv">
+              <table id="queryTable">
+                <tbody>
+                <tr>
+                  {Object.keys(query.result[0]).map((val, index) => 
+                    <th className="table-header" key={index}><b>{val}</b></th>
                   )}
-                </div>
-              )}
+                </tr>
+                {query.result.map((obj, index) => 
+                <tr key={index + 100}>
+                    {Object.values(obj).map((val, i) => 
+                    val ?  <td className="table-row" key={i + val}>{val}</td>
+                    : <td>N/A</td>
+                    )}
+                </tr>
+                )}
+                </tbody>
+              </table>
             </div>
           )
         : (<i>No Query Result</i>)}

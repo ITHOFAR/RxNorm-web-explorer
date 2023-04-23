@@ -11,8 +11,6 @@ import {
  export async function action({ request, params }) {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
-
-    console.log(updates);
     
     const responce = await fetch("/api/search", { //returns query result data
       method: 'POST',
@@ -22,7 +20,6 @@ import {
 
     let updateVals = await responce.json();
     updateVals = JSON.parse(updateVals);
-    console.log(updateVals);
 
     await updateQuery(params.queryId, updateVals);
     return redirect(`/querys/${params.queryId}`);
@@ -33,13 +30,15 @@ export default function EditQuery() {
   const navigate = useNavigate();
 
   const tableOptions = [
-    { value: "SCD", label: "SCD: Semantic Clinical Drug"},
-    { value: "SBD", label: "SBD: Semantic Branded Drug"},
+    { value: "scd", label: "SCD: Semantic Clinical Drug"},
+    { value: "sbd", label: "SBD: Semantic Branded Drug"},
     { value: "mthspl_prod", label: "MTHSPL: FDA Structured Product Labels"},
+    { value: "gpck", label: "GPCK: Generic Pack"},
+    { value: "bpck", label: "BPCK: Branded Pack"},
   ];
 
   const optionOptions = [
-    { value: "ALL", label: "ALL: All information"},
+    { value: "All", label: "ALL: All information"},
     { value: "Name", label: "Name: Name only"},
     { value: "Count", label: "Count: Amount only"},
   ];
@@ -50,7 +49,7 @@ export default function EditQuery() {
           Database Table:&nbsp;&nbsp; 
           <Select
             className="Table name"
-            defaultValue={tableOptions[0]}
+            defaultValue={query.table ? tableOptions.find(tab => tab.value == query.table) : tableOptions[0]}
             name="table"
             inputId="aria-table-select"
             options={tableOptions}
@@ -65,7 +64,7 @@ export default function EditQuery() {
         Query Options:&nbsp;&nbsp;&nbsp;&nbsp; 
         <Select
           className="option name"
-          defaultValue={optionOptions[0]}
+          defaultValue={query.option ? optionOptions.find(opt => opt.value == query.option) : optionOptions[0]}
           name="option"
           inputId="aria-option-select"
           options={optionOptions}

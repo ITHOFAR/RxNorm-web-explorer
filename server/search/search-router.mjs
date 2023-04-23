@@ -12,16 +12,16 @@ router.post("/", async (req, res) => {
         if (parameter.length > 0) {
             switch (option) {
                 case 'All': 
-                    queryResult = await querySQL(`select distinct * from ${table} where name ilike $1 or prescribable_name ilike $1  order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
+                    queryResult = await querySQL(`select distinct * from ${table} where name ilike $1 order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
                     break;
                 case 'Name': 
-                    queryResult = await querySQL(`select distinct name from ${table} where name ilike $1 or prescribable_name ilike $1 order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
+                    queryResult = await querySQL(`select distinct name from ${table} where name ilike $1 order by name asc fetch first 5 rows only;`, ['%' + (parameter || '') + '%']);
                     break;
                 case 'Count': 
-                    queryResult = await querySQL(`select count(*) from ${table} where name ilike $1 or prescribable_name ilike $1 ;`, ['%' + (parameter || '') + '%']);
+                    queryResult = await querySQL(`select count(*) from ${table} where name ilike $1;`, ['%' + (parameter || '') + '%']);
                     break;
                 default:
-                    queryResult = await querySQL("select distinct * from SCD where name ilike $1 or prescribable_name ilike $1  order by name asc fetch first 5 rows only;", ['%' + (parameter || '') + '%']);
+                    queryResult = await querySQL("select distinct * from SCD where name ilike $1 order by name asc fetch first 5 rows only;", ['%' + (parameter || '') + '%']);
             }
         }
         else {
@@ -42,7 +42,32 @@ router.post("/", async (req, res) => {
         const resultName = table ? table + " + " + option + ": " + "No Custom Name" : "SCD + ALL: Default Query";
         name = name ? name : resultName;
 
-        const result = JSON.stringify(queryResult.rows);
+        let result;
+        if (option == 'All') {
+            switch (table) {
+                case "scd":
+                    result = JSON.stringify(queryResult.rows.map(RowToSCD));
+                    break;
+                case "sbd":
+                    result = JSON.stringify(queryResult.rows.map(RowToSBD));
+                    break;
+                case "mthspl_prod":
+                    result = JSON.stringify(queryResult.rows.map(RowToMTHSPL));
+                    break;
+                case "gpck":
+                    result = JSON.stringify(queryResult.rows.map(RowToGPCK));
+                    break;
+                case "bpck":
+                    result = JSON.stringify(queryResult.rows.map(RowToGPCK));
+                    break;
+                default:
+                    result = JSON.stringify(queryResult.rows.map(RowToSCD));
+            };
+        }
+        else {
+            result = JSON.stringify(queryResult.rows);
+        }
+
         const resultObject = {
             name: name, 
             id: id,
@@ -51,7 +76,7 @@ router.post("/", async (req, res) => {
             option: option,
             comment: comment,
             parameter: parameter
-        }
+        };
 
         const data = JSON.stringify(resultObject)
         res.status(200).json(data);
@@ -90,3 +115,23 @@ router.post("/add", async (req, res) => {
         res.status(500).send(e.message);
     }
 });
+
+function RowToSCD(r) {
+    return {Rxcui: r.rxcui, Rxaui: r.rxaui, Name: r.name, "Prescribable Name": r.prescribable_name, "Dose Form": r.rxterm_form, "Available Strengths": r.available_strengths};
+};
+
+function RowToSBD(r) {
+    return {Rxcui: r.rxcui, Rxaui: r.rxaui, Name: r.name, "Prescribable Name": r.prescribable_name, "Dose Form": r.rxterm_form, "Available Strengths": r.available_strengths, "SCD Rxcui": r.scd_rxcui};
+};
+
+function RowToMTHSPL(r) {
+    return {Rxcui: r.rxcui, Rxaui: r.rxaui, NDC: r.code, Name: r.name, "SCD Rxcui": r.scd_rxcui, "SBD Rxcui": r.sbd_rxcui};
+};
+
+function RowToGPCK(r) {
+    return {Rxcui: r.rxcui, Rxaui: r.rxaui, Name: r.name, "Prescribable Name": r.prescribable_name};
+};
+
+function RowToBPCK(r) {
+    return {Rxcui: r.rxcui, Rxaui: r.rxaui, Name: r.name, "Prescribable Name": r.prescribable_name, "GPCK Rxcui": r.gpck_rxcui};
+};
