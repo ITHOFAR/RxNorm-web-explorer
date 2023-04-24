@@ -61,7 +61,7 @@ router.post("/", async (req, res) => {
                     result = JSON.stringify(queryResult.rows.map(RowToGPCK));
                     break;
                 default:
-                    result = JSON.stringify(queryResult.rows.map(RowToSCD));
+                    result = JSON.stringify(queryResult.rows.map(RowToBPCK));
             };
         }
         else {

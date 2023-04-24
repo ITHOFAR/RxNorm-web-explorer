@@ -12,7 +12,8 @@ import {
     const formData = await request.formData();
     const updates = Object.fromEntries(formData);
     
-    const responce = await fetch("/api/search", { //returns query result data
+    //returns updated information from database
+    const responce = await fetch("/api/search", { 
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: updates.name, id: params.queryId, table: updates.table, option: updates.option, comment: updates.comment, parameter: updates.parameter })
@@ -21,6 +22,7 @@ import {
     let updateVals = await responce.json();
     updateVals = JSON.parse(updateVals);
 
+    //putting updated result object back into database
     await updateQuery(params.queryId, updateVals);
     return redirect(`/querys/${params.queryId}`);
 };
@@ -29,6 +31,7 @@ export default function EditQuery() {
   const { query } = useLoaderData();
   const navigate = useNavigate();
 
+  //used for React-select
   const tableOptions = [
     { value: "scd", label: "SCD: Semantic Clinical Drug"},
     { value: "sbd", label: "SBD: Semantic Branded Drug"},
