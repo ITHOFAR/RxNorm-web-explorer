@@ -10,7 +10,7 @@ The RxNorm-Explorer will allow users to gain large amounts of information from j
 The application will store queried drugs and query results for each user
 
 * data to be queried stored in PostgreSQL (accessed by pg-pool and pg modules)
-* users can have multiple queries (results stored in PostgreSQL)
+* comments and custom options stored and duplicatable (results stored in PostgreSQL)
 * each query can contain multiple different pieces of information
 
 Example Use 1:
@@ -21,19 +21,23 @@ Example Use 2:
 
 ![list create](documentation/figure2.png)
 
-## [Link to Commented First Draft Schema](db/sql/create-derived-tables.sql)
+## [Link to PostgreSQL Schema](db/sql/create-derived-tables.sql)
 
-See [create-derived-tables.sql](db/sql/create-derived-tables.sql) for PostgreSQL schema
+See [populate-derived-tables.sql](db/sql/populate-derived-tables.sql) for data in the PostgreSQL Schema
 
-## Wireframes
+## Example Pages
 
-/search - page for querying different identifiers
+/ - home page
 
-![list create](documentation/search.svg)
+![list create](documentation/home.png)
 
-/result - page for showing results of a user
+/create - page for creating and editing a query
 
-![list](documentation/results.svg)
+![list](documentation/create.png)
+
+/query:id - page for showing result of a query
+
+![list](documentation/result.png)
 
 ## Site map
 
