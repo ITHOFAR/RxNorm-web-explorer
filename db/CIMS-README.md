@@ -88,7 +88,7 @@ export PGUSER=rxnorm
 ### To run PostgreSQL with the proper user name after set-up
 
 ```sh
-scripts/./start-pg-cims.sh
+scripts/cims-scripts/./start-pg-cims.sh
 ```
 
 ### To populate database with rxnorm information
@@ -96,7 +96,7 @@ scripts/./start-pg-cims.sh
 **Warning:** On CIMS, this can take over 30 minutes.
 
 ```sh
-scripts/./load-pg.sh
+scripts/cims-scripts/./load-pg.sh
 ```
 
 ## Resources and Misc Info
@@ -106,7 +106,8 @@ scripts/./load-pg.sh
 When accessing cims, use access1 for consistency
 
 ```sh
-ssh <user-name>@access1.cims.nyu.edy
+ssh <user-name>@access1.cims.nyu.edu
+ssh <user-name>@linser1.cims.nyu.edu
 ```
 
 ### To check if PG is listening on proper port
