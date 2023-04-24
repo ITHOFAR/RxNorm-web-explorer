@@ -72,7 +72,7 @@ See [populate-derived-tables.sql](db/sql/populate-derived-tables.sql) for data i
 
 1. [pg-pool npm page](https://www.npmjs.com/package/pg-pool) - [pg-pool-exec.mjs](server/pg-pool-exec.mjs)
 2. [dotenv npm page](https://www.npmjs.com/package/dotenv) - [envs folder](/envs/)
-3. [tutorial on flexbox](https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/) - [css WIP](public/css/style.css)
-4. [React tutorial](https://react.dev/learn/thinking-in-react) - [client WIP](/client/)
-5. [React Router tutorial](https://reactrouter.com/en/main/start/tutorial) - [client WIP](/client/)
+3. [tutorial on flexbox](https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/) - [css](/client/src/index.css)
+4. [React tutorial](https://react.dev/learn/thinking-in-react) - [client](/client/)
+5. [React Router tutorial](https://reactrouter.com/en/main/start/tutorial) - [client](/client/)
 6. Conversations with my father, helped paint a picture of interactions between database (PostgreSQL), middle-tier/server (express app), and front-end/client (react app). Not really sure how to cite this.
